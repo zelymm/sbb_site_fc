@@ -1,6 +1,5 @@
 package com.ll.exam.sbb.question;
 
-import com.ll.exam.sbb.DataNotFoundException;
 import com.ll.exam.sbb.answer.AnswerForm;
 import com.ll.exam.sbb.user.SiteUser;
 import com.ll.exam.sbb.user.UserService;
@@ -16,7 +15,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 
 @RequestMapping("/question")
 @Controller
@@ -58,9 +56,6 @@ public class QuestionController {
     @GetMapping("/modify/{id}")
     public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
         Question question = this.questionService.getQuestion(id);
-        if ( question == null ) {
-            throw new DataNotFoundException("%d번 질문은 존재하지 않습니다.");
-        }
 
         if(!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -78,9 +73,6 @@ public class QuestionController {
             return "question_form";
         }
         Question question = this.questionService.getQuestion(id);
-        if (question == null) {
-            throw new DataNotFoundException("%d번 질문은 존재하지 않습니다.");
-        }
 
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
@@ -111,10 +103,6 @@ public class QuestionController {
     @GetMapping("/delete/{id}")
     public String questionDelete(Principal principal, @PathVariable("id") Integer id) {
         Question question = questionService.getQuestion(id);
-
-        if (question == null) {
-            throw new DataNotFoundException("%d번 질문은 존재하지 않습니다.");
-        }
 
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
