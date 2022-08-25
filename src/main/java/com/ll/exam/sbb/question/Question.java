@@ -35,11 +35,15 @@ public class Question {
     @ManyToMany
     Set<SiteUser> voter;
 
-    private Integer hitCount = 0;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private Integer hitCount;
+
+    /*public void updateCount(Integer hitCount){
+        this.hitCount = hitCount;
+    }*/
 
     public void addAnswer(Answer answer) {
         answer.setQuestion(this);
         getAnswerList().add(answer);
     }
-
 }

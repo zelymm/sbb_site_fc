@@ -47,7 +47,7 @@ public class QuestionController {
         Question question = questionService.getQuestion(id);
 
         model.addAttribute("question", question);
-
+        questionService.updateCount(id); // views ++
         return "question_detail";
     }
 
