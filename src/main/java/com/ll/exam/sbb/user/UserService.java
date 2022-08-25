@@ -19,7 +19,7 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
 
-        //this.userRepository.save(user);
+
         try {
             userRepository.save(user);
         } catch (DataIntegrityViolationException e) {
